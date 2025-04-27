@@ -16,6 +16,7 @@ extends Node3D
 # --- CAMERA PROPERTIES --- #
 @onready var player: Node3D = get_owner()
 @onready var _camera_pivot: Node3D = self
+@export var camera_follow_speed: float = 5.0
 
 const GROUND_PLANE = Plane(Vector3.UP, 0)
 const RAY_LENGTH = 1000
@@ -35,12 +36,20 @@ func _move_controller(delta: float) -> void:
 
 	if Input.is_action_pressed("camera_left"):
 		player.rotate_y(deg_to_rad(rotation_speed * delta))
+		_align_with_quaternion(delta)
+
+		# interpolacion simple - no funciona por el euler
+		#_camera_pivot.global_rotation = lerp(_camera_pivot.global_rotation, player.global_rotation, 0.05)
+
+		# Segunda opcion para el manejo de la camara
+		#rotate_y(deg_to_rad(rotation_speed * delta))
 	if Input.is_action_pressed("camera_right"):
 		player.rotate_y(deg_to_rad(-rotation_speed * delta))
+		_align_with_quaternion(delta)
 
 	velocity = velocity.normalized()
 	global_translate(velocity * delta * movement_speed)
-
+	
 
 func _edge_move_controller(delta: float) -> void:
 	var velocity = Vector3()
@@ -49,9 +58,15 @@ func _edge_move_controller(delta: float) -> void:
 	var m_pos = viewport.get_mouse_position()
 
 	if m_pos.x < edge_margin:
-		player.rotate_y(deg_to_rad(rotation_speed * delta))
+		#player.rotate_y(deg_to_rad(rotation_speed * delta))
+		# mover la camara a la izquierda sobre el eje de la camara
+		rotate_y(deg_to_rad(rotation_speed * delta))
+		
 	elif m_pos.x > visible_rect.size.x - edge_margin:
-		player.rotate_y(deg_to_rad(-rotation_speed * delta))
+		#player.rotate_y(deg_to_rad(-rotation_speed * delta))
+		# mover la camara a la derecha sobre el eje de la camara
+		rotate_y(deg_to_rad(-rotation_speed * delta))
+		
 	if m_pos.y < edge_margin:
 		mouse_input -= zoom_speed * delta
 	elif m_pos.y > visible_rect.size.y - edge_margin:
@@ -76,3 +91,19 @@ func _zoom_controller(_delta: float) -> void:
 	_camera_pivot.scale.x = clampf(_camera_pivot.scale.x, min_zoom, max_zoom)
 	_camera_pivot.scale.y = clampf(_camera_pivot.scale.y, min_zoom, max_zoom)
 	_camera_pivot.scale.z = clampf(_camera_pivot.scale.z, min_zoom, max_zoom)
+
+
+func _align_with_quaternion(delta: float) -> void:
+	var old_scale: Vector3 = _camera_pivot.global_transform.basis.get_scale()
+
+	var cur_q: Quaternion = _camera_pivot.global_transform.basis.get_rotation_quaternion()
+	var tgt_q: Quaternion = player.global_transform.basis.get_rotation_quaternion()
+	var t: float = clamp(camera_follow_speed * delta, 0.0, 1.0)
+	var new_q: Quaternion = cur_q.slerp(tgt_q, t)
+	var new_bas: Basis = Basis(new_q).orthonormalized()
+
+	var scaled_bas: Basis = new_bas.scaled(old_scale)
+
+	var xform: Transform3D = _camera_pivot.global_transform
+	xform.basis = scaled_bas
+	_camera_pivot.global_transform = xform

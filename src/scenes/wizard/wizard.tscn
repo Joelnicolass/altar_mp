@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://bvfpch1a042bl"]
+[gd_scene load_steps=9 format=3 uid="uid://bvfpch1a042bl"]
 
 [ext_resource type="Script" uid="uid://bisi4fync4udx" path="res://src/scenes/wizard/wizard.gd" id="1_fme0u"]
 [ext_resource type="Script" uid="uid://7uklg384b87q" path="res://src/scenes/wizard/rts_controller.gd" id="2_40vlt"]
@@ -12,10 +12,17 @@ properties/0/replication_mode = 1
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_40vlt"]
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_40vlt"]
+albedo_color = Color(0, 0, 1, 1)
+
 [sub_resource type="SphereMesh" id="SphereMesh_fme0u"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pqxd8"]
+albedo_color = Color(0.658824, 0, 0, 1)
 
 [node name="Wizard" type="CharacterBody3D"]
 script = ExtResource("1_fme0u")
+speed = 10.0
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_fme0u")
@@ -24,14 +31,16 @@ replication_config = SubResource("SceneReplicationConfig_fme0u")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.01035, 0)
 shape = SubResource("CapsuleShape3D_fme0u")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+[node name="Mesh" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.01804, 0)
 mesh = SubResource("CapsuleMesh_40vlt")
+surface_material_override/0 = SubResource("StandardMaterial3D_40vlt")
 
-[node name="MeshInstance3D2" type="MeshInstance3D" parent="MeshInstance3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.432484, -0.0875108)
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Mesh"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.432484, -0.24196)
 mesh = SubResource("SphereMesh_fme0u")
 skeleton = NodePath("../..")
+surface_material_override/0 = SubResource("StandardMaterial3D_pqxd8")
 
 [node name="RTSController" type="Node3D" parent="."]
 script = ExtResource("2_40vlt")

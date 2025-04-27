@@ -1,7 +1,5 @@
 class_name Wizard extends CharacterBody3D
 
-var initial_transform: Transform3D
-
 # --- WIZARD PROPERTIES --- #
 @export var max_health: int = 100
 @export var max_mana: int = 200
@@ -11,8 +9,13 @@ var current_health: int
 var current_mana: int
 var souls: int = 0
 
+
+# --- COMMON PROPERTIES --- #
+var initial_transform: Transform3D
+
 # --- CAMERA PROPERTIES --- #
 @onready var _camera := $RTSController/Elevation/Camera3D as Camera3D
+
 
 # --- MOVEMENT PROPERTIES --- #
 var GRAVITY = ProjectSettings.get_setting("physics/3d/default_gravity")
