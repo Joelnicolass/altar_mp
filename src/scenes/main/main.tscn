@@ -1,9 +1,16 @@
-[gd_scene load_steps=2 format=3 uid="uid://bs44lmucagckg"]
+[gd_scene load_steps=4 format=3 uid="uid://bs44lmucagckg"]
 
-[ext_resource type="Script" uid="uid://do7hw6c4t4cs" path="res://main.gd" id="1_ig7tw"]
+[ext_resource type="Script" uid="uid://do7hw6c4t4cs" path="res://src/scenes/main/main.gd" id="1_4rfip"]
+[ext_resource type="Script" uid="uid://cqsg3s5iuc3ef" path="res://src/utils/multiplayer/player_spawner.gd" id="2_45uaa"]
+[ext_resource type="PackedScene" uid="uid://bvfpch1a042bl" path="res://src/scenes/wizard/wizard.tscn" id="3_45uaa"]
 
 [node name="Main" type="Node3D"]
-script = ExtResource("1_ig7tw")
+script = ExtResource("1_4rfip")
+
+[node name="PlayerSpawner" type="MultiplayerSpawner" parent="."]
+spawn_path = NodePath("../World")
+script = ExtResource("2_45uaa")
+player = ExtResource("3_45uaa")
 
 [node name="Menu" type="CanvasLayer" parent="."]
 
@@ -48,6 +55,11 @@ text = "HOST"
 layout_mode = 2
 theme_override_font_sizes/font_size = 100
 text = "JOIN"
+
+[node name="World" type="Node3D" parent="."]
+
+[node name="Camera3D" type="Camera3D" parent="World"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.14758, 3.67273)
 
 [connection signal="pressed" from="Menu/Control/Panel/MarginContainer/VBoxContainer/Host" to="." method="_on_host_pressed"]
 [connection signal="pressed" from="Menu/Control/Panel/MarginContainer/VBoxContainer/Join" to="." method="_on_join_pressed"]

@@ -7,8 +7,8 @@ const MAX_CLIENTS: int = 16
 const IP_SERVER: String = "localhost"
 
 @onready var menu_hud: CanvasLayer = $Menu
-#@onready var player_spawner: MultiplayerSpawner = $PlayerSpawner
-#@onready var world: Node3D = $World
+@onready var player_spawner: MultiplayerSpawner = $PlayerSpawner
+@onready var world: Node3D = $World
 
 var peer: ENetMultiplayerPeer = ENetMultiplayerPeer.new()
 
@@ -16,9 +16,7 @@ var peer: ENetMultiplayerPeer = ENetMultiplayerPeer.new()
 func _ready() -> void:
 	_initialize_events()
 
-	if OS.has_feature(FLAG_DEDICATED_SERVER):
-		_create_server()
-	elif DisplayServer.get_name() == FLAG_HEADLESS:
+	if OS.has_feature(FLAG_DEDICATED_SERVER) or DisplayServer.get_name() == FLAG_HEADLESS:
 		_create_server()
 
 
@@ -41,17 +39,17 @@ func _create_client():
 
 
 func _add_player(id: int) -> void:
-	#player_spawner.spawn({
-	#	'peer_id': id,
-	#	'initial_transform': Transform3D(Basis(), Vector3(randf_range(-2, 2), 0, 0))
-	#})
+	player_spawner.spawn({
+		'peer_id': id,
+		'initial_transform': Transform3D(Basis(), Vector3(randf_range(-2, 2), 0, 0))
+	})
 	print("Player added: ", id)
 
 
 func _remove_player(id: int) -> void:
-	#var player = world.get_node(str(id))
-	#if player:
-	#	player.queue_free()
+	var player = world.get_node(str(id))
+	if player:
+		player.queue_free()
 		print("Player removed: ", id)
 
 

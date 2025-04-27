@@ -1,7 +1,10 @@
-extends Node3D
+class_name Wizard extends CharacterBody3D
 
 var is_master: bool = false
 var initial_transform: Transform3D
+
+
+# --- WIZARD PROPERTIES --- #
 
 
 func _enter_tree() -> void:
@@ -10,10 +13,7 @@ func _enter_tree() -> void:
 
 
 func _ready() -> void:
-	if name == "1":
-		print("Player " + str(name) + " is the master")
-		self.visible = false
-	if is_multiplayer_authority():
+	if is_master:
 		global_transform = initial_transform
 
 

@@ -1,0 +1,26 @@
+[gd_scene load_steps=5 format=3 uid="uid://bvfpch1a042bl"]
+
+[ext_resource type="Script" uid="uid://bisi4fync4udx" path="res://src/scenes/wizard/wizard.gd" id="1_fme0u"]
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_fme0u"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_fme0u"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_40vlt"]
+
+[node name="Wizard" type="CharacterBody3D"]
+script = ExtResource("1_fme0u")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_fme0u")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.01035, 0)
+shape = SubResource("CapsuleShape3D_fme0u")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.01804, 0)
+mesh = SubResource("CapsuleMesh_40vlt")
