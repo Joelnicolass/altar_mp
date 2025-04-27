@@ -41,10 +41,12 @@ alignment = 1
 
 [node name="Host" type="Button" parent="Menu/Control/Panel/MarginContainer/VBoxContainer"]
 layout_mode = 2
+theme_override_font_sizes/font_size = 100
 text = "HOST"
 
 [node name="Join" type="Button" parent="Menu/Control/Panel/MarginContainer/VBoxContainer"]
 layout_mode = 2
+theme_override_font_sizes/font_size = 100
 text = "JOIN"
 
 [connection signal="pressed" from="Menu/Control/Panel/MarginContainer/VBoxContainer/Host" to="." method="_on_host_pressed"]
