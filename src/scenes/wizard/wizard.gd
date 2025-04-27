@@ -64,4 +64,4 @@ func _input_handler(_delta: float) -> void:
 		velocity.x = 0
 		velocity.z = 0
 	
-	move_and_slide()
+# --- NETWORK FUNCTIONS --- #
