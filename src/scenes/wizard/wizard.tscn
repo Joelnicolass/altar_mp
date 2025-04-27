@@ -35,8 +35,10 @@ skeleton = NodePath("../..")
 
 [node name="RTSController" type="Node3D" parent="."]
 script = ExtResource("2_40vlt")
+min_zoom = 1.0
 
 [node name="Elevation" type="Node3D" parent="RTSController"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 3)
 
 [node name="Camera3D" type="Camera3D" parent="RTSController/Elevation"]
+transform = Transform3D(1, 0, 0, 0, 0.965058, 0.262038, 0, -0.262038, 0.965058, 0, 0, 0)

@@ -1,18 +1,19 @@
 extends Node3D
 
-# movement params
+# --- MOVEMENT PARAMS --- #
 @export_range(0, 1000) var movement_speed: float = 15
 @export_range(0, 1000) var camera_bounds_margin: int = 100
-# rotation params
+# --- ROTATION PARAMS --- #
 @export_range(0, 1000, 0.1) var rotation_speed: float = 100.0
-# zoom
+# --- ZOOM PARAMS --- #
 @export_range(0, 1000) var min_zoom: float = 0.5
 @export_range(0, 1000) var max_zoom: float = 5.0
 @export_range(0, 1000, 0.1) var zoom_speed: float = 1.0
-#edge
+# --- EDGE SCROLLING PARAMS --- #
 @export_range(0, 1000) var edge_margin: float = 50
 @export_range(0, 10, 0.5) var edge_speed: float = 3
 
+# --- CAMERA PROPERTIES --- #
 @onready var player: Node3D = get_owner()
 @onready var _camera_pivot: Node3D = self
 
@@ -23,7 +24,7 @@ var mouse_input = 0.0
 
 func _process(delta) -> void:
 	if not player.is_multiplayer_authority(): return
-	
+
 	_edge_move_controller(delta)
 	_move_controller(delta)
 	_zoom_controller(delta)
@@ -33,9 +34,9 @@ func _move_controller(delta: float) -> void:
 	var velocity = Vector3()
 
 	if Input.is_action_pressed("camera_left"):
-		player.rotate_y(deg_to_rad(-rotation_speed * delta))
-	if Input.is_action_pressed("camera_right"):
 		player.rotate_y(deg_to_rad(rotation_speed * delta))
+	if Input.is_action_pressed("camera_right"):
+		player.rotate_y(deg_to_rad(-rotation_speed * delta))
 
 	velocity = velocity.normalized()
 	global_translate(velocity * delta * movement_speed)
@@ -48,13 +49,13 @@ func _edge_move_controller(delta: float) -> void:
 	var m_pos = viewport.get_mouse_position()
 
 	if m_pos.x < edge_margin:
-		player.rotate_y(deg_to_rad(-rotation_speed * delta))
-	elif m_pos.x > visible_rect.size.x - edge_margin:
 		player.rotate_y(deg_to_rad(rotation_speed * delta))
+	elif m_pos.x > visible_rect.size.x - edge_margin:
+		player.rotate_y(deg_to_rad(-rotation_speed * delta))
 	if m_pos.y < edge_margin:
-		mouse_input += zoom_speed * delta
-	elif m_pos.y > visible_rect.size.y - edge_margin:
 		mouse_input -= zoom_speed * delta
+	elif m_pos.y > visible_rect.size.y - edge_margin:
+		mouse_input += zoom_speed * delta
 	else:
 		mouse_input = 0.0
 		
