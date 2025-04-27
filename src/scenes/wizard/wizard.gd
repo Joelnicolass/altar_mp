@@ -20,6 +20,7 @@ var souls: int = 0
 
 @onready var _camera_pivot := $CameraPivot as Node3D
 @onready var _camera := $CameraPivot/SpringArm3D/Camera3D as Camera3D
+@onready var _rts_camera := $RTSController/Elevation/Camera3D as Camera3D
 
 
 func _enter_tree() -> void:
@@ -31,7 +32,7 @@ func _ready() -> void:
 	if not is_master: return
 
 	global_transform = initial_transform
-	_camera.current = true
+	_rts_camera.current = true
 
 
 func _process(_delta: float) -> void:
@@ -47,28 +48,26 @@ func _process(_delta: float) -> void:
 		translate(Vector3(0, 0, 0.1))
 
 
-	var mouse_input = 0.0
-	if (Input.is_action_just_pressed("scrollUp")):
-		mouse_input += 1.0
-	if (Input.is_action_just_pressed("scrollDown")):
-		mouse_input -= 1.0
-
-	if mouse_input != 0.0:
-		# zoom in/out
-		_camera_pivot.scale.x += mouse_input * 0.1
-		_camera_pivot.scale.y += mouse_input * 0.1
-		_camera_pivot.scale.z += mouse_input * 0.1
-	# Prevent the camera from zooming too far in or out.
-	_camera_pivot.scale.x = clampf(_camera_pivot.scale.x, 0.5, 2.0)
-	_camera_pivot.scale.y = clampf(_camera_pivot.scale.y, 0.5, 2.0)
-	_camera_pivot.scale.z = clampf(_camera_pivot.scale.z, 0.5, 2.0)
+#	var mouse_input = 0.0
+#	if (Input.is_action_just_pressed("scrollUp")):
+#		mouse_input += 1.0
+#	if (Input.is_action_just_pressed("scrollDown")):
+#		mouse_input -= 1.0
+#
+#	if mouse_input != 0.0:
+#		# zoom in/out
+#		_camera_pivot.scale.x += mouse_input * 0.1
+#		_camera_pivot.scale.y += mouse_input * 0.1
+#		_camera_pivot.scale.z += mouse_input * 0.1
+#	# Prevent the camera from zooming too far in or out.
+#	_camera_pivot.scale.x = clampf(_camera_pivot.scale.x, 0.5, 2.0)
+#	_camera_pivot.scale.y = clampf(_camera_pivot.scale.y, 0.5, 2.0)
+#	_camera_pivot.scale.z = clampf(_camera_pivot.scale.z, 0.5, 2.0)
 
 			
-func _unhandled_input(event: InputEvent) -> void:
-	if not is_master: return
-
-	if event is InputEventMouseMotion:
-		_camera_pivot.rotation.x -= event.relative.y * mouse_sensitivity
-		# Prevent the camera from rotating too far up or down.
-		_camera_pivot.rotation.x = clampf(_camera_pivot.rotation.x, -tilt_limit, tilt_limit)
-		_camera_pivot.rotation.y += -event.relative.x * mouse_sensitivity
+#func _unhandled_input(event: InputEvent) -> void:
+#	if not is_master: return
+#
+#	if event is InputEventMouseMotion:
+#		# si el mouse llega al borde de la pantalla, se mueve la camara
+#		var screen = DisplayServer.window_get_size()
