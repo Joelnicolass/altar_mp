@@ -22,6 +22,8 @@ var mouse_input = 0.0
 
 
 func _process(delta) -> void:
+	if not player.is_multiplayer_authority(): return
+	
 	_edge_move_controller(delta)
 	_move_controller(delta)
 	_zoom_controller(delta)

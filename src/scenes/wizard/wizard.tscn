@@ -33,15 +33,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.432484, -0.0875108)
 mesh = SubResource("SphereMesh_fme0u")
 skeleton = NodePath("../..")
 
-[node name="CameraPivot" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
-visible = false
-
-[node name="SpringArm3D" type="SpringArm3D" parent="CameraPivot"]
-spring_length = 3.0
-
-[node name="Camera3D" type="Camera3D" parent="CameraPivot/SpringArm3D"]
-
 [node name="RTSController" type="Node3D" parent="."]
 script = ExtResource("2_40vlt")
 
