@@ -41,7 +41,7 @@ func _create_client():
 func _add_player(id: int) -> void:
 	player_spawner.spawn({
 		'peer_id': id,
-		'initial_transform': Transform3D(Basis(), Vector3(randf_range(-2, 2), 0, 0))
+		'initial_transform': Transform3D(Basis(), Vector3(randf_range(-10, 10), 0, 0))
 	})
 	print("Player added: ", id)
 
