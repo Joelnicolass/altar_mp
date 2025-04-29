@@ -1,7 +1,8 @@
-[gd_scene load_steps=9 format=3 uid="uid://bvfpch1a042bl"]
+[gd_scene load_steps=10 format=3 uid="uid://bvfpch1a042bl"]
 
 [ext_resource type="Script" uid="uid://bisi4fync4udx" path="res://src/scenes/wizard/wizard.gd" id="1_fme0u"]
 [ext_resource type="Script" uid="uid://7uklg384b87q" path="res://src/scenes/wizard/rts_controller.gd" id="2_40vlt"]
+[ext_resource type="PackedScene" uid="uid://2vt5rwuh3bnt" path="res://src/scenes/selection_box/selection_box.tscn" id="3_pqxd8"]
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_fme0u"]
 properties/0/path = NodePath(".:position")
@@ -20,7 +21,7 @@ albedo_color = Color(0, 0, 1, 1)
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pqxd8"]
 albedo_color = Color(0.658824, 0, 0, 1)
 
-[node name="Wizard" type="CharacterBody3D"]
+[node name="Wizard" type="CharacterBody3D" groups=["units"]]
 script = ExtResource("1_fme0u")
 speed = 10.0
 
@@ -53,3 +54,5 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 3)
 
 [node name="Camera3D" type="Camera3D" parent="Camera/RTSController/Elevation"]
 transform = Transform3D(1, 0, 0, 0, 0.965058, 0.262038, 0, -0.262038, 0.965058, 0, 0, 0)
+
+[node name="SelectionBox" parent="." instance=ExtResource("3_pqxd8")]

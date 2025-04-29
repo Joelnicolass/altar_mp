@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://2vt5rwuh3bnt"]
+
+[ext_resource type="Script" uid="uid://dw3wpwd18epou" path="res://src/scenes/selection_box/selection_box.gd" id="1_4867m"]
+[ext_resource type="Texture2D" uid="uid://dg6iss6jp5ibd" path="res://src/resources/textures/selectionbox_tex.png" id="1_q3dx8"]
+
+[node name="SelectionBox" type="Node2D"]
+script = ExtResource("1_4867m")
+
+[node name="NinePatchRect" type="NinePatchRect" parent="."]
+offset_right = 2.0
+offset_bottom = 2.0
+texture = ExtResource("1_q3dx8")
+region_rect = Rect2(135, 530, 130, 130)
+
+[node name="Panel" type="Panel" parent="."]
+offset_right = 2.0
+offset_bottom = 2.0

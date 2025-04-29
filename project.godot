@@ -15,12 +15,20 @@ run/main_scene="uid://bs44lmucagckg"
 config/features=PackedStringArray("4.4", "Forward Plus")
 config/icon="res://icon.svg"
 
+[autoload]
+
+RaycastSystem="*res://src/core/globals/raycast.gd"
+
 [display]
 
 window/size/viewport_width=1920
 window/size/viewport_height=1080
 window/stretch/mode="viewport"
 window/stretch/aspect="expand"
+
+[global_group]
+
+units=""
 
 [input]
 
