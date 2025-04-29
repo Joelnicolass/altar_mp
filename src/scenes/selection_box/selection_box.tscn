@@ -1,7 +1,19 @@
-[gd_scene load_steps=3 format=3 uid="uid://2vt5rwuh3bnt"]
+[gd_scene load_steps=4 format=3 uid="uid://2vt5rwuh3bnt"]
 
 [ext_resource type="Script" uid="uid://dw3wpwd18epou" path="res://src/scenes/selection_box/selection_box.gd" id="1_4867m"]
 [ext_resource type="Texture2D" uid="uid://dg6iss6jp5ibd" path="res://src/resources/textures/selectionbox_tex.png" id="1_q3dx8"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4867m"]
+bg_color = Color(0, 0, 0, 0.215686)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 0.623529, 0.172549, 0.435294)
+corner_radius_top_left = 25
+corner_radius_top_right = 25
+corner_radius_bottom_right = 25
+corner_radius_bottom_left = 25
 
 [node name="SelectionBox" type="Node2D"]
 script = ExtResource("1_4867m")
@@ -15,3 +27,4 @@ region_rect = Rect2(135, 530, 130, 130)
 [node name="Panel" type="Panel" parent="."]
 offset_right = 2.0
 offset_bottom = 2.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_4867m")

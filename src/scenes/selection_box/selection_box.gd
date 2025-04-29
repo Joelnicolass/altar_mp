@@ -9,6 +9,7 @@ extends Node2D
 
 var camera: Camera3D # our 3D game camera
 @onready var nine_patch_rect = $Panel # to visualize selection rectangle
+@onready var player: CharacterBody3D = get_owner()
 
 var is_selecting = false # is currently selecting?
 var selection_start = Vector2() # start of selection rectangle
@@ -16,10 +17,14 @@ var selection_rect = Rect2() # end of selection rectangle
 
 
 func _ready():
+	if not player.is_multiplayer_authority(): return
+
 	camera = get_viewport().get_camera_3d()
 
 
 func _input(event):
+	if not player.is_multiplayer_authority(): return
+
 	if event is InputEventMouseButton:
 		if event.button_index == MOUSE_BUTTON_LEFT:
 			if event.pressed:
@@ -48,6 +53,8 @@ func _input(event):
 
 
 func _process(_delta):
+	if not player.is_multiplayer_authority(): return
+	
 	if is_selecting:
 		# Continuously update the selection rectangle to match the mouse position
 		var current_mouse_position = get_global_mouse_position()

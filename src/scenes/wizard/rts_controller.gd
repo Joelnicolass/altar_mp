@@ -65,11 +65,13 @@ func _edge_move_controller(delta: float) -> void:
 	var m_pos = viewport.get_mouse_position()
 
 	if m_pos.x < edge_margin:
+		if Input.is_action_pressed("align_camera"): return
 		#player.rotate_y(deg_to_rad(rotation_speed * delta))
 		# mover la camara a la izquierda sobre el eje de la camara
 		rotate_y(deg_to_rad(rotation_speed * delta))
 		
 	elif m_pos.x > visible_rect.size.x - edge_margin:
+		if Input.is_action_pressed("align_camera"): return
 		#player.rotate_y(deg_to_rad(-rotation_speed * delta))
 		# mover la camara a la derecha sobre el eje de la camara
 		rotate_y(deg_to_rad(-rotation_speed * delta))

@@ -60,14 +60,27 @@ func _input_handler(delta: float) -> void:
 		_speed = run_speed
 
 	var direction = Vector3.ZERO
+
 	if Input.is_action_pressed("move_forward"):
 		direction += -transform.basis.z
 	if Input.is_action_pressed("move_backward"):
 		direction += transform.basis.z
+
 	if Input.is_action_pressed("move_left"):
-		rotate_y(deg_to_rad(rotation_speed * delta))
+		# TODO: asignar tecla para este tipo de movimiento
+		if Input.is_action_pressed("ui_home"):
+			direction += -transform.basis.x
+		else:
+			# tank movement
+			rotate_y(deg_to_rad(rotation_speed * delta))
 	if Input.is_action_pressed("move_right"):
-		rotate_y(deg_to_rad(-rotation_speed * delta))
+		# TODO: asignar tecla para este tipo de movimiento
+		if Input.is_action_pressed("ui_home"):
+			direction += transform.basis.x
+		else:
+			# tank movement
+			rotate_y(deg_to_rad(-rotation_speed * delta))
+		
 		
 	if direction != Vector3.ZERO:
 		direction = direction.normalized()
