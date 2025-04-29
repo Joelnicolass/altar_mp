@@ -4,6 +4,7 @@ class_name Wizard extends CharacterBody3D
 @export var max_health: int = 100
 @export var max_mana: int = 200
 @export var speed: float = 6.0
+@export var rotation_speed: float = 100.0
 
 var current_health: int
 var current_mana: int
@@ -14,7 +15,7 @@ var souls: int = 0
 var initial_transform: Transform3D
 
 # --- CAMERA PROPERTIES --- #
-@onready var _camera := $RTSController/Elevation/Camera3D as Camera3D
+@onready var _camera := $Camera/RTSController/Elevation/Camera3D as Camera3D
 
 
 # --- MOVEMENT PROPERTIES --- #
@@ -50,15 +51,20 @@ func _physics_process(delta: float) -> void:
 func _apply_gravity(delta: float) -> void:
 	if not is_on_floor():
 		velocity.y -= GRAVITY * delta
+		print("Falling")
 
 # TODO! esto tiene que manejar el servidor
-func _input_handler(_delta: float) -> void:
+func _input_handler(delta: float) -> void:
 	var direction = Vector3.ZERO
 	if Input.is_action_pressed("move_forward"):
 		direction += -transform.basis.z
 	if Input.is_action_pressed("move_backward"):
 		direction += transform.basis.z
-	
+	if Input.is_action_pressed("move_left"):
+		rotate_y(deg_to_rad(rotation_speed * delta))
+	if Input.is_action_pressed("move_right"):
+		rotate_y(deg_to_rad(-rotation_speed * delta))
+		
 	if direction != Vector3.ZERO:
 		direction = direction.normalized()
 		velocity.x = direction.x * speed

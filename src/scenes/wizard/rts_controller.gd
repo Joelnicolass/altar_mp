@@ -14,7 +14,7 @@ extends Node3D
 @export_range(0, 10, 0.5) var edge_speed: float = 3
 
 # --- CAMERA PROPERTIES --- #
-@onready var player: Node3D = get_owner()
+@onready var player: Node3D = get_parent().get_parent()
 @onready var _camera_pivot: Node3D = self
 @export var camera_follow_speed: float = 5.0
 
@@ -26,26 +26,30 @@ var mouse_input = 0.0
 func _process(delta) -> void:
 	if not player.is_multiplayer_authority(): return
 
+	_follow_player(delta)
 	_edge_move_controller(delta)
 	_move_controller(delta)
 	_zoom_controller(delta)
-	
 
+
+func _follow_player(_delta: float) -> void:
+	_camera_pivot.global_transform.origin = player.global_transform.origin
+
+	
 func _move_controller(delta: float) -> void:
 	var velocity = Vector3()
 
 	if Input.is_action_pressed("camera_left"):
-		player.rotate_y(deg_to_rad(rotation_speed * delta))
-		_align_with_quaternion(delta)
-
+		#player.rotate_y(deg_to_rad(rotation_speed * delta))
+		#_align_with_quaternion(delta)
 		# interpolacion simple - no funciona por el euler
 		#_camera_pivot.global_rotation = lerp(_camera_pivot.global_rotation, player.global_rotation, 0.05)
-
 		# Segunda opcion para el manejo de la camara
-		#rotate_y(deg_to_rad(rotation_speed * delta))
+		rotate_y(deg_to_rad(rotation_speed * delta))
 	if Input.is_action_pressed("camera_right"):
-		player.rotate_y(deg_to_rad(-rotation_speed * delta))
-		_align_with_quaternion(delta)
+		#player.rotate_y(deg_to_rad(-rotation_speed * delta))
+		#_align_with_quaternion(delta)
+		rotate_y(deg_to_rad(-rotation_speed * delta))
 
 	velocity = velocity.normalized()
 	global_translate(velocity * delta * movement_speed)
@@ -78,9 +82,9 @@ func _edge_move_controller(delta: float) -> void:
 
 
 func _zoom_controller(_delta: float) -> void:
-	if (Input.is_action_just_pressed("scrollUp") or Input.is_action_pressed("camera_backward")):
+	if (Input.is_action_just_pressed("scroll_up") or Input.is_action_pressed("camera_backward")):
 		mouse_input += zoom_speed
-	if (Input.is_action_just_pressed("scrollDown") or Input.is_action_pressed("camera_forward")):
+	if (Input.is_action_just_pressed("scroll_down") or Input.is_action_pressed("camera_forward")):
 		mouse_input -= zoom_speed
 
 	if mouse_input != 0.0:
