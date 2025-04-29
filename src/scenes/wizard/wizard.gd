@@ -4,6 +4,7 @@ class_name Wizard extends CharacterBody3D
 @export var max_health: int = 100
 @export var max_mana: int = 200
 @export var speed: float = 6.0
+@export var run_speed: float = 16.0
 @export var rotation_speed: float = 100.0
 
 var current_health: int
@@ -51,10 +52,13 @@ func _physics_process(delta: float) -> void:
 func _apply_gravity(delta: float) -> void:
 	if not is_on_floor():
 		velocity.y -= GRAVITY * delta
-		print("Falling")
 
 # TODO! esto tiene que manejar el servidor
 func _input_handler(delta: float) -> void:
+	var _speed = speed
+	if Input.is_action_pressed("run"):
+		_speed = run_speed
+
 	var direction = Vector3.ZERO
 	if Input.is_action_pressed("move_forward"):
 		direction += -transform.basis.z
@@ -67,8 +71,8 @@ func _input_handler(delta: float) -> void:
 		
 	if direction != Vector3.ZERO:
 		direction = direction.normalized()
-		velocity.x = direction.x * speed
-		velocity.z = direction.z * speed
+		velocity.x = direction.x * _speed
+		velocity.z = direction.z * _speed
 	else:
 		velocity.x = 0
 		velocity.z = 0

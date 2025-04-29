@@ -35,6 +35,9 @@ func _process(delta) -> void:
 func _follow_player(_delta: float) -> void:
 	_camera_pivot.global_transform.origin = player.global_transform.origin
 
+	if Input.is_action_pressed("align_camera"):
+		_align_with_quaternion(_delta)
+
 	
 func _move_controller(delta: float) -> void:
 	var velocity = Vector3()
