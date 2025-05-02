@@ -8,6 +8,7 @@ var peer: int
 @onready var selected = $Selected
 @onready var mesh: MeshInstance3D = $MeshInstance3D
 @onready var map_RID: RID = get_world_3d().get_navigation_map()
+@onready var raycast: RayCast3D = $RayCast3D
 
 var is_selected = false
 var pathing: bool = false
@@ -22,6 +23,7 @@ func _enter_tree() -> void:
 
 func _ready() -> void:
 	if not is_multiplayer_authority(): return
+
 
 	global_transform = initial_transform
 
@@ -64,9 +66,24 @@ func move_to(movement_target: Vector3) -> void:
 	_unit_path_new(_random_position_offset(movement_target))
 
 
-func _unit_rotate_to_direction(direction: Vector3) -> void:
-	rotation.y = atan2(-direction.x, -direction.z)
+func _unit_rotate_to_direction(dir: Vector3) -> void:
+	var forward = dir.normalized()
 	
+	raycast.force_raycast_update()
+	if not raycast.is_colliding(): return
+	var normal = raycast.get_collision_normal()
+	
+	var up = normal.normalized()
+	var right = up.cross(forward).normalized()
+	var corrected_forward = right.cross(up).normalized()
+	
+	var b = Basis()
+	b.x = right
+	b.y = up
+	b.z = corrected_forward
+	
+	global_transform.basis = b
+
 
 func _unit_path_new(wanted_goal: Vector3) -> void:
 	var safe_goal: Vector3 = NavigationServer3D.map_get_closest_point(map_RID, wanted_goal)

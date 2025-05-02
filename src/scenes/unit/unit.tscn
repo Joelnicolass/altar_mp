@@ -38,3 +38,6 @@ shape = SubResource("BoxShape3D_no0ux")
 transform = Transform3D(2.38687, 0, 0, 0, 0.0431516, 0, 0, 0, 2.37794, 0.00225401, 0.00280368, 0.000571609)
 visible = false
 mesh = SubResource("CylinderMesh_no0ux")
+
+[node name="RayCast3D" type="RayCast3D" parent="."]
+target_position = Vector3(0, -5, 0)
