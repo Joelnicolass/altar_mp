@@ -4,7 +4,7 @@ class_name Unit extends StaticBody3D
 var initial_transform: Transform3D
 var peer: int
 
-@export var movement_speed: float = 30.0
+@export var movement_speed: float = 2.0
 @onready var selected = $Selected
 @onready var mesh: Node3D = $Blend
 @onready var map_RID: RID = get_world_3d().get_navigation_map()
@@ -50,6 +50,7 @@ func _physics_process(delta: float) -> void:
 			else:
 				pathing = false
 				pathing_point = 0
+				ap.play("idle")
 
 
 func set_is_selected(value: bool) -> void:
@@ -67,6 +68,7 @@ func move_to(movement_target: Vector3) -> void:
 		pathing_point = 0
 
 	_unit_path_new(_random_position_offset(movement_target))
+	ap.play("run")
 
 
 func _unit_rotate_to_direction(dir: Vector3) -> void:

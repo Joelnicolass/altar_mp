@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://bs44lmucagckg"]
+[gd_scene load_steps=13 format=3 uid="uid://bs44lmucagckg"]
 
 [ext_resource type="Script" uid="uid://do7hw6c4t4cs" path="res://src/scenes/main/main.gd" id="1_4rfip"]
 [ext_resource type="Script" uid="uid://cqsg3s5iuc3ef" path="res://src/core/multiplayer/player_spawner.gd" id="2_45uaa"]
@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://deetdmyjxgjcr" path="res://src/resources/blends/test_map.blend" id="4_vw57g"]
 [ext_resource type="Script" uid="uid://5js31gofdc53" path="res://src/resources/blends/terrain.gd" id="5_3q0a4"]
 [ext_resource type="PackedScene" uid="uid://cscnv74ye0j6a" path="res://src/scenes/unit/unit.tscn" id="5_fub2y"]
+[ext_resource type="Script" uid="uid://bi5phnrcgog17" path="res://src/core/utils/fps.gd" id="6_fup5m"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_vw57g"]
 
@@ -37,6 +38,29 @@ player = ExtResource("3_45uaa")
 spawn_path = NodePath("../World")
 script = ExtResource("4_cx4eu")
 unit = ExtResource("5_fub2y")
+
+[node name="__DEBUG__" type="CanvasLayer" parent="."]
+
+[node name="Control" type="Control" parent="__DEBUG__"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="FPS" type="Label" parent="__DEBUG__/Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 50
+text = "FPS
+"
+horizontal_alignment = 2
+script = ExtResource("6_fup5m")
 
 [node name="Menu" type="CanvasLayer" parent="."]
 

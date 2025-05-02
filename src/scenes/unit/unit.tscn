@@ -27,7 +27,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.504039, 0)
 shape = SubResource("BoxShape3D_no0ux")
 
 [node name="Selected" type="MeshInstance3D" parent="."]
-transform = Transform3D(2.38687, 0, 0, 0, 0.0431516, 0, 0, 0, 2.37794, 0.00225401, 0.00280368, 0.000571609)
+transform = Transform3D(2.38687, 0, 0, 0, 0.0431516, 0, 0, 0, 2.37794, 0.00225401, 2.07559, 0.000571609)
 visible = false
 mesh = SubResource("CylinderMesh_no0ux")
 
