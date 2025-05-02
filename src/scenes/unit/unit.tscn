@@ -16,14 +16,12 @@ properties/1/replication_mode = 1
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_no0ux"]
 
-[node name="Unit" type="RigidBody3D" groups=["units"]]
+[node name="Unit" type="StaticBody3D" groups=["units"]]
 script = ExtResource("1_no0ux")
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_no0ux")
 visibility_update_mode = 1
-
-[node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.540668, 0)

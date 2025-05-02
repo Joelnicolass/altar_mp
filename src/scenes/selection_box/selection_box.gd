@@ -132,6 +132,8 @@ func _handle_right_click(event: InputEventMouseButton):
 
 		var clicked_object = RaycastSystem.get_raycast_hit_object(1)
 		var coordinates = RaycastSystem.get_mouse_world_position(1)
+		if not clicked_object: return
+
 		var _groups = clicked_object.get_groups()
 		
 		var is_player = _groups.has(GROUP_PLAYER)

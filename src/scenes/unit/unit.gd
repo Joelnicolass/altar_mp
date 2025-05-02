@@ -1,4 +1,4 @@
-class_name Unit extends RigidBody3D
+class_name Unit extends StaticBody3D
 
 # --- COMMON PROPERTIES --- #
 var initial_transform: Transform3D
@@ -9,11 +9,39 @@ func _enter_tree() -> void:
 	print("Unit " + str(name) + "peer:" + str(peer) + " has authority: " + str(is_multiplayer_authority()))
 
 
-@onready var selected = $Selected
-@onready var navigation_agent = $NavigationAgent3D
 @export var movement_speed: float = 4.0
+@onready var selected = $Selected
+@onready var map_RID: RID = get_world_3d().get_navigation_map()
 
 var is_selected = false
+var pathing: bool = false
+var pathing_point: int = 0
+var path_points_packed: PackedVector3Array
+
+
+func unit_path_new(wanted_goal: Vector3) -> void:
+	var safe_goal: Vector3 = NavigationServer3D.map_get_closest_point(map_RID, wanted_goal)
+	path_points_packed = NavigationServer3D.map_get_path(map_RID, global_position, safe_goal, true)
+	pathing = true
+	pathing_point = 0
+
+
+func _physics_process(delta: float) -> void:
+	if not is_multiplayer_authority(): return
+	
+	if pathing:
+		var path_next_point: Vector3 = path_points_packed[pathing_point] - global_position
+		if path_next_point.length_squared() > 1.0:
+			var velocity: Vector3 = (path_next_point.normalized() * delta) * movement_speed
+			global_position += velocity
+		else:
+			if pathing_point < (path_points_packed.size() - 1):
+				pathing_point += 1
+				_physics_process(delta)
+			else:
+				pathing = false
+				pathing_point = 0
+
 
 func set_is_selected(value: bool) -> void:
 	if not is_multiplayer_authority(): return
@@ -23,29 +51,16 @@ func set_is_selected(value: bool) -> void:
 
 
 func move_to(movement_target: Vector3) -> void:
-	navigation_agent.set_target_position(movement_target)
+	if not is_multiplayer_authority(): return
 
+	if pathing:
+		pathing = false
+		pathing_point = 0
+
+	unit_path_new(movement_target)
+	
 
 func _ready() -> void:
 	if not is_multiplayer_authority(): return
 
 	global_transform = initial_transform
-	navigation_agent.velocity_computed.connect(Callable(_on_velocity_computed))
-
-	
-func _physics_process(delta):
-	if not is_multiplayer_authority(): return
-
-	if NavigationServer3D.map_get_iteration_id(navigation_agent.get_navigation_map()) == 0: return
-	if navigation_agent.is_navigation_finished(): return
-
-	var next_path_position: Vector3 = navigation_agent.get_next_path_position()
-	var new_velocity: Vector3 = global_position.direction_to(next_path_position) * movement_speed
-	if navigation_agent.avoidance_enabled:
-		navigation_agent.set_velocity(new_velocity)
-	else:
-		_on_velocity_computed(new_velocity)
-
-
-func _on_velocity_computed(safe_velocity: Vector3):
-	linear_velocity = safe_velocity
