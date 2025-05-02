@@ -26,11 +26,11 @@ func _enter_tree() -> void:
 func _ready() -> void:
 	if not is_multiplayer_authority(): return
 
-
 	global_transform = initial_transform
 
 	await (get_tree().process_frame)
 	_y_correction()
+
 	ap.play("idle")
 
 
