@@ -16,6 +16,8 @@ func _enter_tree() -> void:
 var is_selected = false
 
 func set_is_selected(value: bool) -> void:
+	if not is_multiplayer_authority(): return
+	
 	is_selected = value
 	selected.visible = value
 

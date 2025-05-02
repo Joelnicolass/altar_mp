@@ -9,9 +9,6 @@ properties/0/replication_mode = 1
 properties/1/path = NodePath(".:rotation")
 properties/1/spawn = true
 properties/1/replication_mode = 1
-properties/2/path = NodePath("Selected:visible")
-properties/2/spawn = true
-properties/2/replication_mode = 1
 
 [sub_resource type="PrismMesh" id="PrismMesh_fvp6k"]
 
@@ -37,6 +34,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.504039, 0)
 shape = SubResource("BoxShape3D_no0ux")
 
 [node name="Selected" type="MeshInstance3D" parent="."]
-transform = Transform3D(2.38687, 0, 0, 0, 0.0431516, 0, 0, 0, 2.37794, 0, 0, 0)
+transform = Transform3D(2.38687, 0, 0, 0, 0.0431516, 0, 0, 0, 2.37794, 0.00225401, 0.00280368, 0.000571609)
 visible = false
 mesh = SubResource("CylinderMesh_no0ux")

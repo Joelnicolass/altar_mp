@@ -92,5 +92,3 @@ func _input_handler(delta: float) -> void:
 	else:
 		velocity.x = 0
 		velocity.z = 0
-	
-# --- NETWORK FUNCTIONS --- #

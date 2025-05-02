@@ -21,7 +21,7 @@ var is_authority = false
 
 func _ready():
 	if not is_authority: return
-	
+
 
 func _input(event):
 	if not is_authority: return
@@ -137,16 +137,27 @@ func _handle_right_click(event: InputEventMouseButton):
 		var is_player = _groups.has(GROUP_PLAYER)
 		var is_terrain = _groups.has(GROUP_TERRAIN)
 		var is_unit = _groups.has(GROUP_UNITS)
+		var is_building = _groups.has(GROUP_BUILDINGS)
 
-		if is_unit:
-			print("Clicked unit:", clicked_object.name)
-		
-		if is_player:
-			print("Clicked player:", clicked_object.name)
-		
-		if is_terrain:
-			# mover unidades
-			if has_selected_units:
+		var is_enemy = clicked_object.is_multiplayer_authority() != is_authority
+
+		if has_selected_units:
+			if is_terrain:
 				for unit in _selected_units:
 					if unit is Unit:
 						unit.move_to(coordinates)
+			
+			if is_unit and is_enemy:
+				for unit in _selected_units:
+					if unit is Unit:
+						print("Clicked enemy unit:", clicked_object.name)
+
+			if is_player and is_enemy:
+				for unit in _selected_units:
+					if unit is Unit:
+						print("Clicked enemy player:", clicked_object.name)
+			
+			if is_building and is_enemy:
+				for unit in _selected_units:
+					if unit is Unit:
+						print("Clicked enemy building:", clicked_object.name)
