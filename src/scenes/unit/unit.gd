@@ -11,6 +11,7 @@ func _enter_tree() -> void:
 
 @export var movement_speed: float = 4.0
 @onready var selected = $Selected
+@onready var mesh: MeshInstance3D = $MeshInstance3D
 @onready var map_RID: RID = get_world_3d().get_navigation_map()
 
 var is_selected = false
@@ -33,6 +34,7 @@ func _physics_process(delta: float) -> void:
 		var path_next_point: Vector3 = path_points_packed[pathing_point] - global_position
 		if path_next_point.length_squared() > 1.0:
 			var velocity: Vector3 = (path_next_point.normalized() * delta) * movement_speed
+			unit_rotate_to_direction(velocity)
 			global_position += velocity
 		else:
 			if pathing_point < (path_points_packed.size() - 1):
@@ -64,3 +66,11 @@ func _ready() -> void:
 	if not is_multiplayer_authority(): return
 
 	global_transform = initial_transform
+	
+	await (get_tree().process_frame)
+	global_position = NavigationServer3D.map_get_closest_point(map_RID, global_position)
+	mesh.position.y = NavigationServer3D.map_get_cell_height(map_RID)
+
+
+func unit_rotate_to_direction(direction: Vector3) -> void:
+	rotation.y = atan2(-direction.x, -direction.z)
