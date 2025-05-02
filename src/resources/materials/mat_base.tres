@@ -1,0 +1,9 @@
+[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://bjqucs2u7j7g2"]
+
+[ext_resource type="Texture2D" uid="uid://cgxbubgdcg734" path="res://src/resources/blends/textures/texture_0.png" id="1_gghvg"]
+
+[resource]
+resource_name = "mat_base"
+cull_mode = 2
+albedo_texture = ExtResource("1_gghvg")
+roughness = 0.5

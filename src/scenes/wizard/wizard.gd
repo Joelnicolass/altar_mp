@@ -2,14 +2,28 @@ class_name Wizard extends CharacterBody3D
 
 # --- WIZARD PROPERTIES --- #
 @export var max_health: int = 100
+@export var regeneration_health: float = 1.0
 @export var max_mana: int = 200
+@export var regeneration_mana: float = 1.0
+
 @export var speed: float = 6.0
 @export var run_speed: float = 16.0
+@export var flying_speed: float = 10.0
 @export var rotation_speed: float = 100.0
+
+@export var ranged_accuracy: float = 90.0
+@export var resistance_melee: float = 0.0
+@export var resistance_ranged: float = 0.0
+@export var resistance_spell: float = 0.0
 
 var current_health: int
 var current_mana: int
+var is_flying: bool = false
+
 var souls: int = 0
+var kills: int = 0
+var deaths: int = 0
+var minions: int = 0
 
 
 # --- COMMON PROPERTIES --- #

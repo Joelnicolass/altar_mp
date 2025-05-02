@@ -145,10 +145,45 @@ func _handle_right_click(event: InputEventMouseButton):
 
 		if has_selected_units:
 			if is_terrain:
-				for unit in _selected_units:
-					if unit is Unit:
-						unit.move_to(coordinates)
-			
+				# formacion de unidades en el terreno
+				# 5 unidades por fila
+				# que las unidades se alineen a donde ve la camara
+				#var units_per_row = _selected_units.size() / 5.0
+				#var row = 0
+				#var column = 0
+				#for unit in _selected_units:
+				#	if unit is Unit:
+				#		unit.move_to(coordinates + Vector3(row, 0, column))
+				#		column += 0.5
+				#		if column >= units_per_row:
+				#			row += 3
+				#			column = 0
+				# parámetros
+				var max_per_row := 5
+				var spacing_x := 3.0
+				var spacing_z := 3.0
+
+				# vectores de cámara (opcional)
+				var cam_basis := camera.global_transform.basis
+				var right_dir := cam_basis.x.normalized()
+				var back_dir := cam_basis.z.normalized() # si Z mira “hacia adelante”, quita el signo
+
+				# bucle
+				for i in _selected_units.size():
+					var unit = _selected_units[i]
+					if not unit is Unit: continue
+
+					# cálculo de fila y columna enteros
+					var row = i / max_per_row # división entera en GDScript si ambos son int
+					var col = i % max_per_row # resto
+
+					# offset en el plano XZ
+					var offset = right_dir * (col * spacing_x) \
+								+ back_dir * (row * spacing_z)
+
+					unit.move_to(coordinates + offset)
+
+							
 			if is_unit and is_enemy:
 				for unit in _selected_units:
 					if unit is Unit:

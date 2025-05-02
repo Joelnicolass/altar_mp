@@ -1,6 +1,7 @@
 [gd_scene load_steps=6 format=3 uid="uid://cscnv74ye0j6a"]
 
 [ext_resource type="Script" uid="uid://ctqol0p1m8alq" path="res://src/scenes/unit/unit.gd" id="1_no0ux"]
+[ext_resource type="PackedScene" uid="uid://dker2mmnp1lph" path="res://src/resources/blends/manafuente.blend" id="2_qkrou"]
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_no0ux"]
 properties/0/path = NodePath(".:position")
@@ -9,11 +10,6 @@ properties/0/replication_mode = 1
 properties/1/path = NodePath(".:rotation")
 properties/1/spawn = true
 properties/1/replication_mode = 1
-properties/2/path = NodePath("MeshInstance3D:rotation")
-properties/2/spawn = true
-properties/2/replication_mode = 1
-
-[sub_resource type="PrismMesh" id="PrismMesh_fvp6k"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_no0ux"]
 
@@ -26,10 +22,6 @@ script = ExtResource("1_no0ux")
 replication_config = SubResource("SceneReplicationConfig_no0ux")
 visibility_update_mode = 1
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.540668, 0)
-mesh = SubResource("PrismMesh_fvp6k")
-
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.504039, 0)
 shape = SubResource("BoxShape3D_no0ux")
@@ -41,3 +33,6 @@ mesh = SubResource("CylinderMesh_no0ux")
 
 [node name="RayCast3D" type="RayCast3D" parent="."]
 target_position = Vector3(0, -5, 0)
+
+[node name="Blend" parent="." instance=ExtResource("2_qkrou")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.000316381, 5.96046e-08, -0.00378036)

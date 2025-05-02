@@ -6,9 +6,11 @@ var peer: int
 
 @export var movement_speed: float = 30.0
 @onready var selected = $Selected
-@onready var mesh: MeshInstance3D = $MeshInstance3D
+@onready var mesh: Node3D = $Blend
 @onready var map_RID: RID = get_world_3d().get_navigation_map()
 @onready var raycast: RayCast3D = $RayCast3D
+
+@onready var ap: AnimationPlayer = $Blend/AnimationPlayer
 
 var is_selected = false
 var pathing: bool = false
@@ -29,6 +31,7 @@ func _ready() -> void:
 
 	await (get_tree().process_frame)
 	_y_correction()
+	ap.play("idle")
 
 
 func _physics_process(delta: float) -> void:
@@ -94,10 +97,10 @@ func _unit_path_new(wanted_goal: Vector3) -> void:
 
 func _y_correction() -> void:
 	global_position = NavigationServer3D.map_get_closest_point(map_RID, global_position)
-	mesh.position.y = NavigationServer3D.map_get_cell_height(map_RID)
+	mesh.position.y = NavigationServer3D.map_get_cell_height(map_RID) - 0.5
 
-
+	
 func _random_position_offset(target_direction: Vector3) -> Vector3:
-	var randon_factor: float = 4.0
+	var randon_factor: float = 0.0
 	var offset = Vector3(randf_range(-randon_factor, randon_factor), 0, randf_range(-randon_factor, randon_factor))
 	return target_direction + offset

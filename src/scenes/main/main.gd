@@ -46,7 +46,7 @@ func _add_player(id: int) -> void:
 	print("Player added: ", id)
 
 	if id == 1: return
-	var test_units = 5
+	var test_units = 10
 	for i in range(test_units):
 		_add_unit(id)
 
