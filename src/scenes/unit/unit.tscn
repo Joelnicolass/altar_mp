@@ -1,0 +1,42 @@
+[gd_scene load_steps=6 format=3 uid="uid://cscnv74ye0j6a"]
+
+[ext_resource type="Script" uid="uid://ctqol0p1m8alq" path="res://src/scenes/unit/unit.gd" id="1_no0ux"]
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_no0ux"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath(".:rotation")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+properties/2/path = NodePath("Selected:visible")
+properties/2/spawn = true
+properties/2/replication_mode = 1
+
+[sub_resource type="PrismMesh" id="PrismMesh_fvp6k"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_no0ux"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_no0ux"]
+
+[node name="Unit" type="RigidBody3D" groups=["units"]]
+script = ExtResource("1_no0ux")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_no0ux")
+visibility_update_mode = 1
+
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.540668, 0)
+mesh = SubResource("PrismMesh_fvp6k")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.504039, 0)
+shape = SubResource("BoxShape3D_no0ux")
+
+[node name="Selected" type="MeshInstance3D" parent="."]
+transform = Transform3D(2.38687, 0, 0, 0, 0.0431516, 0, 0, 0, 2.37794, 0, 0, 0)
+visible = false
+mesh = SubResource("CylinderMesh_no0ux")

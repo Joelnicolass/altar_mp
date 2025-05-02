@@ -18,10 +18,11 @@ var initial_transform: Transform3D
 # --- CAMERA PROPERTIES --- #
 @onready var _camera := $Camera/RTSController/Elevation/Camera3D as Camera3D
 
-
 # --- MOVEMENT PROPERTIES --- #
 var GRAVITY = ProjectSettings.get_setting("physics/3d/default_gravity")
 
+# --- SELECTION BOX --- #
+@onready var selection_box: Node2D = $SelectionBox
 
 func _enter_tree() -> void:
 	set_multiplayer_authority(str(name).to_int())
@@ -31,6 +32,8 @@ func _enter_tree() -> void:
 func _ready() -> void:
 	if not is_multiplayer_authority(): return
 
+	selection_box.is_authority = true
+	selection_box.camera = _camera
 	global_transform = initial_transform
 	_camera.current = true
 

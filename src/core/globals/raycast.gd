@@ -3,7 +3,7 @@
 
 extends Node3D
 
-const RAY_LENGTH := 1000
+const RAY_LENGTH := 10000
 
 """
 Uses default collision_mask. But can be overrided for custom collision

@@ -45,6 +45,11 @@ func _add_player(id: int) -> void:
 	})
 	print("Player added: ", id)
 
+	if id == 1: return
+	var test_units = 5
+	for i in range(test_units):
+		_add_unit(id)
+
 
 func _remove_player(id: int) -> void:
 	var player = world.get_node(str(id))
@@ -75,8 +80,8 @@ func _initialize_events() -> void:
 func _on_peer_connected(id: int = 1) -> void:
 	if not multiplayer.is_server(): return
 	_add_player(id)
-
 	
+
 func _on_connected_to_server():
 	if not multiplayer.is_server(): return
 	print("Connected to server")
@@ -90,3 +95,13 @@ func _on_connection_failed():
 func _on_peer_disconnected(id):
 	if not multiplayer.is_server(): return
 	_remove_player(id)
+
+
+@onready var unit_spawner: MultiplayerSpawner = $UnitsSpawner
+
+func _add_unit(id: int) -> void:
+	unit_spawner.spawn({
+		'peer_id': id,
+		'initial_transform': Transform3D(Basis(), Vector3(randf_range(-20, 20), 0, 0))
+	})
+	print("Unit added: ", id)
